@@ -96,32 +96,28 @@ def loadgame():
   global infcoins
   global infhpotions
   global infdpotions
-  loading = True
-  failed = False
-  while loading == True:
+  os.system('clear')
+  savename = input("Enter the name of your save file: ").lower()
+  if savename in db:
+    health = db[savename+"health"]
+    maxhealth = db[savename+"maxhealth"]
+    attack = db[savename+"attack"]
+    lvl = db[savename+"lvl"]
+    name = db[savename+"name"]
+    coins = db[savename+"coins"]
+    hpotions = db[savename+"hpotions"]
+    dpotions = db[savename+"dpotions"]
+    infhealth = db[savename+"infhealth"]
+    infattack = db[savename+"infattack"]
+    inflvl = db[savename+"inflvl"]
+    infcoins = db[savename+"infcoins"]
+    print("Game Successfully loaded with the name",savename)
+    input("Press Enter to Continue")
+  else:
     os.system('clear')
-    savename = input("Enter the name of your save file: ").lower()
-    if savename in db:
-      health = db[savename+"health"]
-      maxhealth = db[savename+"maxhealth"]
-      attack = db[savename+"attack"]
-      lvl = db[savename+"lvl"]
-      name = db[savename+"name"]
-      coins = db[savename+"coins"]
-      hpotions = db[savename+"hpotions"]
-      dpotions = db[savename+"dpotions"]
-      infhealth = db[savename+"infhealth"]
-      infattack = db[savename+"infattack"]
-      inflvl = db[savename+"inflvl"]
-      infcoins = db[savename+"infcoins"]
-      loading = False
-      print("Game Successfully loaded with the name",savename)
-      input("Press Enter to Continue")
-    else:
-      os.system('clear')
-      print("Game save not found. ")
-      input("Press Enter to return to Main Menu")
-      mainmenu()
+    print("Game save not found. ")
+    input("Press Enter to return to Main Menu")
+    mainmenu()
 
 def settings():
   #This whole menu probably could have been done a way simpler way but I like things the complicated way (just kidding I wish i knew the the simple way)
@@ -133,7 +129,7 @@ def settings():
   ic = 0
   ihp = 0
   idp = 0
-  while settingsinput != "5":
+  while settingsinput != "7":
     #Adds all the variables to the function
     global infhealth
     global infattack
