@@ -592,7 +592,10 @@ def main():
   global infcoins
   global infhpotions
   global infdpotions
+  global gamecompleted
   #Depending on what you chose in the settings these will change the respective values. 
+  if lvl == 100:
+    gamecompleted = True
   if infhealth == True:
     health = 9999
     maxhealth = 9999
