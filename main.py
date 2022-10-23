@@ -1,6 +1,7 @@
 #Libraries
 import os
 import random
+from replit import db
 
 #Variables (I HATE GLOBAL VARIABLES AFTER MAKING THIS HOW DO THEY WORK)
 health = 0 #Player Health
@@ -46,11 +47,9 @@ def mainmenu():
   #Starts a new game
   if menuinput == "1":
     newgame()
-  #Still figuring out game saves
+  #Loads a game from a save file
   elif menuinput == "2":
-    print("Work In Progress")
-    input("Press Enter to Continue")
-    mainmenu()
+    loadgame()
   #THE SETTINGS MENU OOOOO
   else:
     settings()
@@ -71,7 +70,6 @@ def newgame():
   global infattack
   global inflvl
   global infcoins
-  global hpotions
   #Depending on what you chose in the settings these will change (mostly for me for testing but also fun to play)
   #I probably could have just used contant variables for this but OH WELL TOO LATE
   if infhealth == True:
@@ -93,8 +91,47 @@ def newgame():
     coins = 0
   #Asks for your name for literally no reason at all (until I add saving and loading multiple save files)
   os.system('clear')
-  name = input("What is your name?: ").title()
+  name = input("What is your name?: ")
 
+def loadgame():
+  global health
+  global maxhealth
+  global attack
+  global lvl
+  global name
+  global coins
+  global hpotions
+  global dpotions
+  global infhealth
+  global infattack
+  global inflvl
+  global infcoins
+  loading = True
+  failed = False
+  while loading == True:
+    os.system('clear')
+    savename = input("Enter the name of your save file: ").lower()
+    if savename in db:
+      health = db[savename+"health"]
+      maxhealth = db[savename+"maxhealth"]
+      attack = db[savename+"attack"]
+      lvl = db[savename+"lvl"]
+      name = db[savename+"name"]
+      coins = db[savename+"coins"]
+      hpotions = db[savename+"hpotions"]
+      dpotions = db[savename+"dpotions"]
+      infhealth = db[savename+"infhealth"]
+      infattack = db[savename+"infattack"]
+      inflvl = db[savename+"inflvl"]
+      infcoins = db[savename+"infcoins"]
+      loading = False
+      print("Game Successfully loaded with the name",savename)
+      input("Press Enter to Continue")
+    else:
+      os.system('clear')
+      print("Game save not found. ")
+      input("Press Enter to return to Main Menu")
+      mainmenu()
 
 def settings():
   #This whole menu probably could have been done a way simpler way but I like things the complicated way (just kidding I wish i knew the the simple way)
@@ -161,11 +198,38 @@ def settings():
 
 
 def savegame():
-  #I'll do this eventually idk how
+  global health
+  global maxhealth
+  global attack
+  global lvl
+  global name
+  global coins
+  global hpotions
+  global dpotions
+  global infhealth
+  global infattack
+  global inflvl
+  global infcoins
   os.system('clear')
-  print("Work in Progress")
-  abcdefg = input("Press Enter to Continue")
-
+  print("The name of your save file will be needed to load the game.")
+  savename = input("What do you want to name this save file?: ").lower()
+  db[savename] = savename
+  db[savename+"health"] = health
+  db[savename+"maxhealth"] = maxhealth
+  db[savename+"attack"] = attack
+  db[savename+"lvl"] = lvl
+  db[savename+"name"] = name
+  db[savename+"coins"] = coins
+  db[savename+"hpotions"] = hpotions
+  db[savename+"dpotions"] = dpotions
+  db[savename+"infhealth"] = infhealth
+  db[savename+"infattack"] = infattack
+  db[savename+"inflvl"] = inflvl
+  db[savename+"infcoins"] = infcoins
+  os.system('clear')
+  print("Saved game successfully with the name:",savename)
+  print("Use this name to load the game next time you play!")
+  input("Press Enter to Continue")
 
 def shop():
   #Adds the variables to the function ANOTHER TIME (theres gotta be an easier way to do this)
@@ -181,7 +245,6 @@ def shop():
   global infattack
   global inflvl
   global infcoins
-  global hpotions
   os.system('clear')
   print("""What do you want to buy?
   1. Health Potion (10 coins)
@@ -219,12 +282,12 @@ Choose a product to see more details about it.""")
         os.system('clear')
         print("Succesfully purchased! You now have", hpotions,
               "health potions. ")
-        abcdefg = input("Press Enter to Continue")
+        input("Press Enter to Continue")
         shop()
       else:
         os.system('clear')
         print("You don't have enough coins to buy this item.")
-        abcdefg = input("Press Enter to Continue")
+        input("Press Enter to Continue")
         shop()
 
   #Damage Potion
@@ -246,12 +309,12 @@ Choose a product to see more details about it.""")
         os.system('clear')
         print("Succesfully purchased! You now have", dpotions,
               "damage potions.")
-        abcdefg = input("Press Enter to Continue")
+        input("Press Enter to Continue")
         shop()
       else:
         os.system('clear')
         print("You don't have enough coins to buy this item.")
-        abcdefg = input("Press Enter to Continue")
+        input("Press Enter to Continue")
         shop()
 
   #Max Health Boost
@@ -273,12 +336,12 @@ Choose a product to see more details about it.""")
         maxhealth = maxhealth + 10
         os.system('clear')
         print("Succesfully purchased! Your max health is now", maxhealth)
-        abcdefg = input("Press Enter to Continue")
+        input("Press Enter to Continue")
         shop()
       else:
         os.system('clear')
         print("You don't have enough coins to buy this item.")
-        abcdefg = input("Press Enter to Continue")
+        input("Press Enter to Continue")
         shop()
 
   #Attack Boost
@@ -298,12 +361,12 @@ Choose a product to see more details about it.""")
         attack = attack + 1
         os.system('clear')
         print("Succesfully purchased! Your attack is now", attack)
-        abcdefg = input("Press Enter to Continue")
+        input("Press Enter to Continue")
         shop()
       else:
         os.system('clear')
         print("You don't have enough coins to buy this item.")
-        abcdefg = input("Press Enter to Continue")
+        input("Press Enter to Continue")
         shop()
     else:
       shop()
@@ -324,7 +387,6 @@ def inventory():
   global infattack
   global inflvl
   global infcoins
-  global hpotions
   os.system('clear')
   print("Your Inventory: ")
   print("   1. Health Potions:", hpotions)
@@ -342,7 +404,7 @@ def inventory():
       os.system('clear')
       print("Your health is already at the maximum of", health,
             ". You can increase your max health with coins in the shop!")
-      abcdefg = input("Press Enter to Continue")
+      input("Press Enter to Continue")
       inventory()
     elif hpotions > 0:
       hpotions = hpotions - 1
@@ -350,12 +412,12 @@ def inventory():
       if health > maxhealth:
         health = maxhealth
       print("Health Potion Used! Your Health is now", health)
-      abcdefg = input("Press Enter to Continue")
+      input("Press Enter to Continue")
       inventory()
     else:
       os.system('clear')
       print("You don't have any health potions. Purchase some in the shop!")
-      abcdefg = input("Press Enter to Continue")
+      input("Press Enter to Continue")
       inventory()
 
   #Use Damage Potion
@@ -369,7 +431,7 @@ def inventory():
         os.system('clear')
         if enemyhp > 0:
           print("Damage Potion used! The enemy's health is now", enemyhp)
-          abcdefg = input("Press Enter to Continue")
+          input("Press Enter to Continue")
           inventory()
         else:
           return
@@ -378,13 +440,13 @@ def inventory():
         print(
           "You don't have any damage potions. Purchase some in the shop after your battle!"
         )
-        abcdefg = input("Press Enter to Continue")
+        input("Press Enter to Continue")
         inventory()
     else:
       print("You can't use this item here.")
       print(
         "Use these items while in a battle to deal 15 damage to the enemy. ")
-      abcdefg = input("Press Enter to Continue")
+      input("Press Enter to Continue")
       inventory()
 
 
@@ -412,7 +474,7 @@ def stats():
   print("Infinite Attack:", infattack)
   print("Infinite Level:", inflvl)
   print("Infinite Coins:", infcoins)
-  abcdefg = input("Press Enter to Continue")
+  input("Press Enter to Continue")
 
 
 def encounter():
@@ -436,7 +498,7 @@ def encounter():
     enemyhp = random.randint(2, 3)
   else:
     print("Error")
-    abcdefg = input("Press Enter to Continue")
+    input("Press Enter to Continue")
   #If the player or enemy dies this will end
   while enemyhp > 0 and health > 0:
     os.system('clear')
@@ -464,7 +526,7 @@ def encounter():
       enemyhp = 0
       print("""You succesfully ran away from the fight.
               You earned 0 coins.""")
-      abcdefg = input("Press Enter to Continue")
+      input("Press Enter to Continue")
       return
 
   #Checks whether the enemy or the player died in the fight
@@ -487,10 +549,10 @@ def encounter():
     else:
       print(" You earned", encounterreward, "coins.")
     coins = coins + encounterreward
-    abcdefg = input("Press Enter to Continue")
+    input("Press Enter to Continue")
   else:
     print("Error")
-    abcdefg = input("Press Enter to Continue")
+    input("Press Enter to Continue")
 
 
 def main():
@@ -589,7 +651,7 @@ def fightboss():
     enemyattack = 8
   else:
     print("Error")
-    abcdefg = input("Press Enter to Continue")
+    input("Press Enter to Continue")
   #If the player or enemy dies this will end
   while enemyhp > 0 and health > 0:
     os.system('clear')
@@ -616,7 +678,7 @@ def fightboss():
       enemyhp = 0
       print("""You succesfully ran away from the fight.
   You earned 0 coins.""")
-      abcdefg = input("Press Enter to Continue")
+      input("Press Enter to Continue")
       return
 
   if enemyhp <= 0 and health > 0:
@@ -626,17 +688,17 @@ def fightboss():
       bossreward = 100
     else:
       print("Error")
-      abcdefg = input("Press Enter to Continue")
+      input("Press Enter to Continue")
     print("You defeated the boss!")
     print(" You earned", bossreward, "coins.")
     coins = coins + bossreward
-    abcdefg = input("Press Enter to Continue")
+    input("Press Enter to Continue")
   #Tests to see if the player has no health, and if so, ends the game.
   elif health <= 0:
     gamecompleted = True
   else:
     print("Error")
-    abcdefg = input("Press Enter to Continue")
+    input("Press Enter to Continue")
 
 
 #Literally one line that starts the whole game. VERY COOL
@@ -662,7 +724,5 @@ print("   Coins:", coins)
 print("Thanks for Playing!")
 
 #to do list: (in order from easiest to hardest)
-#Make the infinite _______ variables use constants instead because easier
 #Make the levels actually work and be useful
-#Add saving the game and loading the game (one save file)
-#Add saving the game and loading the game (multiple save files)
+#Split functions into separate python files (idk how)
