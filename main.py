@@ -4,10 +4,10 @@ import random
 from replit import db
 
 #Variables
-health = 0 #Player Health
+health = 20 #Player Health
 maxhealth = 20 #Player Max Health
-attack = 0 #Player Attack
-lvl = 0 #Player Level
+attack = 1 #Player Attack
+lvl = 1 #Player Level
 name = "" #Player Name
 coins = 0 #Player Coins
 infhealth = False #Infinite Health
@@ -479,24 +479,14 @@ def stats():
   global lvl
   global name
   global coins
-  global infhealth
-  global infattack
-  global inflvl
-  global infcoins
-  global infhpotions
-  global infdpotions
   #Simple stats menu for keeping track in game and also for me for debugging a bit
   os.system('clear')
+  print("Name:", name)
+  print("Level:", lvl)
   print("Health: ", health)
   print("Max Health:", maxhealth)
   print("Attack:", attack)
-  print("Level:", lvl)
-  print("Name:", name)
   print("Coins:", coins)
-  print("Infinite Health:", infhealth)
-  print("Infinite Attack:", infattack)
-  print("Infinite Level:", inflvl)
-  print("Infinite Coins:", infcoins)
   input("Press Enter to Continue")
 
 
@@ -593,9 +583,10 @@ def main():
   global infhpotions
   global infdpotions
   global gamecompleted
-  #Depending on what you chose in the settings these will change the respective values. 
-  if lvl == 100:
+  #Give you a little prize for getting to level 100 without cheats...
+  if lvl == 100 and infhealth == False and infcoins == False and infattack == False and inflvl == False and infhpotions == False and infdpotions == False:
     gamecompleted = True
+  #Depending on what you chose in the settings these will change their respective values. 
   if infhealth == True:
     health = 9999
     maxhealth = 9999
@@ -679,7 +670,7 @@ def fightboss():
   global infdpotions
   global gamecompleted
   enemyhp = lvl * 20
-  enemyhp = lvl * 8
+  enemyattack = lvl * 8
   #If the player or enemy dies this will end
   while enemyhp > 0 and health > 0:
     os.system('clear')
@@ -754,7 +745,7 @@ while gamecompleted == False:
 #Game Over Screen
 if health <= 0:
   if health != 0:
-    health = 0]
+    health = 0
   os.system('clear')
   print("Game Over!")
   print("Your Final Stats:")
