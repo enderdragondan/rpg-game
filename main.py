@@ -3,7 +3,7 @@ import os
 import random
 from replit import db
 
-#Variables (I HATE GLOBAL VARIABLES AFTER MAKING THIS HOW DO THEY WORK)
+#Variables
 health = 0 #Player Health
 maxhealth = 20 #Player Max Health
 attack = 0 #Player Attack
@@ -16,6 +16,8 @@ inflvl = False #Infinite Levels
 infcoins = False #Infinite Coins
 hpotions = 0 #Health Potions
 dpotions = 0 #Damage Potions
+infhpotions = False #Infinite Health Potions
+infdpotions = False #Infinite Health Potions
 gamecompleted = False #Player is Dead or not
 
 
@@ -33,6 +35,8 @@ def mainmenu():
   global infattack
   global inflvl
   global infcoins
+  global infhpotions
+  global infdpotions
   global hpotions
   #Very start of the game. nice
   os.system('clear')
@@ -57,7 +61,7 @@ def mainmenu():
 
 
 def newgame():
-  #Adds variables to the function again (help)
+  #Adds all the variables to the function
   global health
   global maxhealth
   global attack
@@ -70,30 +74,14 @@ def newgame():
   global infattack
   global inflvl
   global infcoins
-  #Depending on what you chose in the settings these will change (mostly for me for testing but also fun to play)
-  #I probably could have just used contant variables for this but OH WELL TOO LATE
-  if infhealth == True:
-    health = 9999
-    maxhealth = 9999
-  else:
-    health = 20
-  if infattack == True:
-    attack = 9999
-  else:
-    attack = 1
-  if inflvl == True:
-    lvl = 9999
-  else:
-    lvl = 1
-  if infcoins == True:
-    coins = 9999
-  else:
-    coins = 0
-  #Asks for your name for literally no reason at all (until I add saving and loading multiple save files)
+  global infhpotions
+  global infdpotions
+  #Asks for your name for literally no reason at all
   os.system('clear')
   name = input("What is your name?: ")
 
 def loadgame():
+  #Adds all the variables to the function
   global health
   global maxhealth
   global attack
@@ -106,6 +94,8 @@ def loadgame():
   global infattack
   global inflvl
   global infcoins
+  global infhpotions
+  global infdpotions
   loading = True
   failed = False
   while loading == True:
@@ -141,19 +131,25 @@ def settings():
   ia = 0
   il = 0
   ic = 0
+  ihp = 0
+  idp = 0
   while settingsinput != "5":
-    #Adds the variables to the function AGAIN
+    #Adds all the variables to the function
     global infhealth
     global infattack
     global inflvl
     global infcoins
+    global infhpotions
+    global infdpotions
     os.system('clear')
     print("Settings:")
     print("  1. Infinite Health:", infhealth)
     print("  2. Infinite Attack:", infattack)
     print("  3. Infinite Levels:", inflvl)
     print("  4. Infinite Coins:", infcoins)
-    print("  5. Back to Main Menu")
+    print("  5. Infinite Health Potions",infhpotions)
+    print("  6. Infinite Damage Potions",infdpotions)
+    print("  7. Back to Main Menu")
     if ih == 1:
       print("Infinite Health Toggled")
     elif ia == 1:
@@ -162,15 +158,21 @@ def settings():
       print("Infinite Levels Toggled")
     elif ic == 1:
       print("Infinite Coins Toggled")
-    settingsinput = input("Choose 1, 2, 3, 4 or 5: ")
-    while settingsinput not in ("1", "2", "3", "4", "5"):
+    elif ihp == 1:
+      print("Infinite Health Potions Toggled")
+    elif idp == 1:
+      print("Infinite Damage Potions Toggled")
+    settingsinput = input("Choose 1, 2, 3, 4, 5, 6 or 7: ")
+    while settingsinput not in ("1", "2", "3", "4", "5","6","7"):
       print("Invalid Input")
-      settingsinput = input("Choose 1, 2, 3, 4 or 5: ")
+      settingsinput = input("Choose 1, 2, 3, 4, 5, 6 or 7: ")
     #These are for displaying the different "Infinite ______ Toggled" messages
     ih = 0
     ia = 0
     il = 0
     ic = 0
+    ihp = 0
+    idp = 0
     if settingsinput == "1":
       ih = 1
       if infhealth == False:
@@ -195,9 +197,22 @@ def settings():
         infcoins = True
       else:
         infcoins = False
+    elif settingsinput == "5":
+      ihp = 1
+      if infhpotions == False:
+        infhpotions = True
+      else:
+        infhpotions = False
+    elif settingsinput == "6":
+      idp = 1
+      if infdpotions == False:
+        infdpotions = True
+      else:
+        infdpotions = False
 
 
 def savegame():
+  #Adds all the variables to the function
   global health
   global maxhealth
   global attack
@@ -210,6 +225,8 @@ def savegame():
   global infattack
   global inflvl
   global infcoins
+  global infhpotions
+  global infdpotions
   os.system('clear')
   print("The name of your save file will be needed to load the game.")
   savename = input("What do you want to name this save file?: ").lower()
@@ -232,7 +249,7 @@ def savegame():
   input("Press Enter to Continue")
 
 def shop():
-  #Adds the variables to the function ANOTHER TIME (theres gotta be an easier way to do this)
+  #Adds all the variables to the function
   global health
   global maxhealth
   global attack
@@ -245,6 +262,8 @@ def shop():
   global infattack
   global inflvl
   global infcoins
+  global infhpotions
+  global infdpotions
   os.system('clear')
   print("""What do you want to buy?
   1. Health Potion (10 coins)
@@ -373,7 +392,7 @@ Choose a product to see more details about it.""")
 
 
 def inventory():
-  #Adds all the variables to the function (please tell me a better way to do this)
+  #Adds all the variables to the function
   global health
   global maxhealth
   global attack
@@ -387,6 +406,8 @@ def inventory():
   global infattack
   global inflvl
   global infcoins
+  global infhpotions
+  global infdpotions
   os.system('clear')
   print("Your Inventory: ")
   print("   1. Health Potions:", hpotions)
@@ -451,7 +472,7 @@ def inventory():
 
 
 def stats():
-  #ADDS ALL THE VARIABLES TO THE FUNCTION AHHHHHHHHH
+  #Adds all the variables to the function
   global health
   global maxhealth
   global attack
@@ -462,6 +483,8 @@ def stats():
   global infattack
   global inflvl
   global infcoins
+  global infhpotions
+  global infdpotions
   #Simple stats menu for keeping track in game and also for me for debugging a bit
   os.system('clear')
   print("Health: ", health)
@@ -478,7 +501,7 @@ def stats():
 
 
 def encounter():
-  #adds all the variables to the function (again again again)
+  #Adds all the variables to the function
   global health
   global maxhealth
   global attack
@@ -492,13 +515,11 @@ def encounter():
   global infattack
   global inflvl
   global infcoins
+  global infhpotions
+  global infdpotions
   global gamecompleted
   #Chooses the health of the enemy based on your level
-  if lvl == 1:
-    enemyhp = random.randint(2, 3)
-  else:
-    print("Error")
-    input("Press Enter to Continue")
+  enemyhp = random.randint(2,3) * lvl
   #If the player or enemy dies this will end
   while enemyhp > 0 and health > 0:
     os.system('clear')
@@ -514,7 +535,7 @@ def encounter():
       encounterchoice = input("Choose 1, 2 or 3: ")
     #Attacks the enemy and also makes the enemy attack the player
     if encounterchoice == "1":
-      enemyattack = random.randint(0, 2)
+      enemyattack = random.randint(0,2) * lvl
       enemyhp = enemyhp - attack
       health = health - enemyattack
     #Opens your inventory to use an item such as a health potion or damage potion
@@ -537,7 +558,7 @@ def encounter():
   #If it was the enemy you get the coins!!!
   elif enemyhp <= 0:
     os.system('clear')
-    encounterreward = random.randint(4, 7)
+    encounterreward = random.randint(4, 7) * lvl
     #I LOVE GAMBLING LETS ADD A JACKPOT CHANCE
     jackpotchance = random.randint(1, 10)
     print("You defeated the enemy.")
@@ -556,7 +577,7 @@ def encounter():
 
 
 def main():
-  #ADDS the VARIABLES to the FUNCTIONAsfaondgsaabo
+  #Adds all the variables to the function
   global health
   global maxhealth
   global attack
@@ -569,16 +590,22 @@ def main():
   global infattack
   global inflvl
   global infcoins
-  #This is my makeshift constant variable because you come back to this function so often (i should have used constant variables (aaahh i'll do that later))
+  global infhpotions
+  global infdpotions
+  #Depending on what you chose in the settings these will change the respective values. 
   if infhealth == True:
     health = 9999
     maxhealth = 9999
   if infattack == True:
     attack = 9999
   if inflvl == True:
-    lvl = 9999
+    lvl = 98
   if infcoins == True:
     coins = 9999
+  if infhpotions == True:
+    hpotions = 9999
+  if infdpotions == True:
+    dpotions = 9999
   #Literally the main function of the game. Thats why i called it main.
   os.system('clear')
   print("""What do you want to do?
@@ -631,7 +658,7 @@ def main():
 
 
 def fightboss():
-  #aDDS ALL THE vaRIABLEs TO thE fuNCTION
+  #Adds all the variables to the function
   global health
   global maxhealth
   global attack
@@ -645,13 +672,11 @@ def fightboss():
   global infattack
   global inflvl
   global infcoins
+  global infhpotions
+  global infdpotions
   global gamecompleted
-  if lvl == 1:
-    enemyhp = 20
-    enemyattack = 8
-  else:
-    print("Error")
-    input("Press Enter to Continue")
+  enemyhp = lvl * 20
+  enemyhp = lvl * 8
   #If the player or enemy dies this will end
   while enemyhp > 0 and health > 0:
     os.system('clear')
@@ -685,7 +710,7 @@ def fightboss():
     #Gives player coins for defeating the boss based on level
     os.system('clear')
     if lvl == 1:
-      bossreward = 100
+      bossreward = 50 * lvl
     else:
       print("Error")
       input("Press Enter to Continue")
@@ -693,6 +718,21 @@ def fightboss():
     print(" You earned", bossreward, "coins.")
     coins = coins + bossreward
     input("Press Enter to Continue")
+    os.system('clear')
+    print(" Do you want to level up? Leveling up makes enemys stronger, but give you more rewards!")
+    levelupchoice = input("Yes or No?: ").lower()
+    while levelupchoice not in ("yes","no"):
+      print("Invalid Input")
+      levelupchoice = input("Yes or No?: ").lower()
+    if levelupchoice == "yes":
+      lvl = lvl + 1
+      os.system('clear')
+      print("You successfully leveled up to Level"+lvl+"! Congratulations!")
+      input("Press Enter to Continue")
+    else:
+      os.system('clear')
+      print("Fight the boss again when you're ready to level up!")
+      input("Press Enter to Continue")
   #Tests to see if the player has no health, and if so, ends the game.
   elif health <= 0:
     gamecompleted = True
@@ -705,24 +745,30 @@ def fightboss():
 mainmenu()
 
 #Tests to see if you are dead
-while gamecompleted == False and health > 0:
+while gamecompleted == False:
   main()
 
 #Game Over Screen
-if health != 0:
-  health = 0
-os.system('clear')
-print("Game Over!")
-print("Your Final Stats:")
-print("   Level:", lvl)
-print("   Health Potions:", hpotions)
-print("   Health: ", health)
-print("   Max Health:", maxhealth)
-print("   Attack:", attack)
-print("   Damage Potions:", dpotions)
-print("   Coins:", coins)
-print("Thanks for Playing!")
+if health <= 0:
+  if health != 0:
+    health = 0]
+  os.system('clear')
+  print("Game Over!")
+  print("Your Final Stats:")
+  print("   Level:", lvl)
+  print("   Health Potions:", hpotions)
+  print("   Health: ", health)
+  print("   Max Health:", maxhealth)
+  print("   Attack:", attack)
+  print("   Damage Potions:", dpotions)
+  print("   Coins:", coins)
+  print("Thanks for Playing!")
+elif lvl == 100:
+  os.system('clear')
+  print("congratulations on making it to level 100.")
+  print("go to this url for your prize: ")
+  print()
+  print(os.environ['secret'])
 
-#to do list: (in order from easiest to hardest)
-#Make the levels actually work and be useful
+#to do list:
 #Split functions into separate python files (idk how)
