@@ -409,7 +409,7 @@ def inventory():
   global infhpotions
   global infdpotions
   os.system('clear')
-  print("Your Inventory: ")
+  print(name+"'s Inventory: ")
   print("   1. Health Potions:", hpotions)
   print("   2. Damage Potions:", dpotions)
   print("   3. Exit Inventory")
@@ -721,7 +721,7 @@ def fightboss():
     if levelupchoice == "yes":
       lvl = lvl + 1
       os.system('clear')
-      print("You successfully leveled up to Level"+lvl+"! Congratulations!")
+      print("You are now Level"+lvl+"! Congratulations "+name+"!")
       input("Press Enter to Continue")
     else:
       os.system('clear')
@@ -750,13 +750,13 @@ if health <= 0:
   print("Game Over!")
   print("Your Final Stats:")
   print("   Level:", lvl)
-  print("   Health Potions:", hpotions)
   print("   Health: ", health)
   print("   Max Health:", maxhealth)
   print("   Attack:", attack)
-  print("   Damage Potions:", dpotions)
   print("   Coins:", coins)
-  print("Thanks for Playing!")
+  print("   Health Potions:", hpotions)
+  print("   Damage Potions:", dpotions)
+  print("Thanks for Playing"+name+"!")
 elif lvl == 100:
   os.system('clear')
   print("congratulations on making it to level 100.")
