@@ -1,5 +1,6 @@
 #Libraries
 import os
+import time
 import random
 from replit import db
 
@@ -19,7 +20,6 @@ dpotions = 0 #Damage Potions
 infhpotions = False #Infinite Health Potions
 infdpotions = False #Infinite Health Potions
 gamecompleted = False #Player is Dead or not
-
 
 def mainmenu():
   #Adds all the variables to the function
@@ -58,7 +58,6 @@ def mainmenu():
   else:
     settings()
     mainmenu()
-
 
 def newgame():
   #Adds all the variables to the function
@@ -111,7 +110,7 @@ def loadgame():
     infattack = db[savename+"infattack"]
     inflvl = db[savename+"inflvl"]
     infcoins = db[savename+"infcoins"]
-    print("Game Successfully loaded with the name",savename)
+    print("Game successfully loaded with the name: ",savename)
     input("Press Enter to Continue")
   else:
     os.system('clear')
@@ -143,8 +142,8 @@ def settings():
     print("  2. Infinite Attack:", infattack)
     print("  3. Infinite Levels:", inflvl)
     print("  4. Infinite Coins:", infcoins)
-    print("  5. Infinite Health Potions",infhpotions)
-    print("  6. Infinite Damage Potions",infdpotions)
+    print("  5. Infinite Health Potions:",infhpotions)
+    print("  6. Infinite Damage Potions:",infdpotions)
     print("  7. Back to Main Menu")
     if ih == 1:
       print("Infinite Health Toggled")
@@ -579,9 +578,6 @@ def main():
   global infhpotions
   global infdpotions
   global gamecompleted
-  #Give you a little prize for getting to level 100 without cheats...
-  if lvl == 100 and infhealth == False and infcoins == False and infattack == False and inflvl == False and infhpotions == False and infdpotions == False:
-    gamecompleted = True
   #Depending on what you chose in the settings these will change their respective values. 
   if infhealth == True:
     health = 9999
@@ -699,17 +695,13 @@ def fightboss():
   if enemyhp <= 0 and health > 0:
     #Gives player coins for defeating the boss based on level
     os.system('clear')
-    if lvl == 1:
-      bossreward = 50 * lvl
-    else:
-      print("Error")
-      input("Press Enter to Continue")
+    bossreward = 50 * lvl
     print("You defeated the boss!")
     print(" You earned", bossreward, "coins.")
     coins = coins + bossreward
     input("Press Enter to Continue")
     os.system('clear')
-    print(" Do you want to level up? Leveling up makes enemys stronger, but give you more rewards!")
+    print("Do you want to level up? Leveling up makes enemys stronger, but give you more rewards!")
     levelupchoice = input("Yes or No?: ").lower()
     while levelupchoice not in ("yes","no"):
       print("Invalid Input")
@@ -717,8 +709,11 @@ def fightboss():
     if levelupchoice == "yes":
       lvl = lvl + 1
       os.system('clear')
-      print("You are now Level"+lvl+"! Congratulations "+name+"!")
+      print("You are now Level "+str(lvl)+"! Congratulations "+name+"!")
       input("Press Enter to Continue")
+      #Give you a little prize for getting to level 100 without cheats...
+      if lvl == 100 and infhealth == False and infcoins == False and infattack == False and inflvl == False and infhpotions == False and infdpotions == False:
+        gamecompleted = True
     else:
       os.system('clear')
       print("Fight the boss again when you're ready to level up!")
