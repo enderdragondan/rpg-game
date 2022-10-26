@@ -40,7 +40,7 @@ def mainmenu():
   global hpotions
   #Very start of the game. nice
   os.system('clear')
-  print("""Welcome to RPG Game!
+  print("""Welcome to Enemy Attack!
   1. New Game
   2. Load Game
   3. Settings""")
