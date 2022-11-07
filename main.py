@@ -560,6 +560,9 @@ def encounter():
     print("Error")
     input("Press Enter to Continue")
 
+def achievements():
+  print("Work in Progress")
+  input("Press Enter to Continue")
 
 def main():
   #Adds all the variables to the function
@@ -601,11 +604,12 @@ def main():
     4. Inventory
     5. Check Stats
     6. Save Game
-    7. Exit Game""")
-  mainchoice = input("Choose 1, 2, 3, 4, 5, 6 or 7: ")
-  while mainchoice not in ("1", "2", "3", "4", "5", "6", "7"):
+    7. Achievements
+    8. Exit Game""")
+  mainchoice = input("Choose 1, 2, 3, 4, 5, 6, 7 or 8: ")
+  while mainchoice not in ("1", "2", "3", "4", "5", "6", "7","8"):
     print("Invalid Input")
-    mainchoice = input("Choose 1, 2, 3, 4, 5, 6 or 7: ")
+    mainchoice = input("Choose 1, 2, 3, 4, 5, 6, 7 or 8: ")
   #Takes you to fight a smaller enemy to earn coins
   if mainchoice == "1":
     encounter()
@@ -625,6 +629,8 @@ def main():
   elif mainchoice == "6":
     savegame()
   #Exits the game (why would you want to)
+  elif mainchoice == "7":
+    achievements()
   else:
     os.system('clear')
     #Confirms if you really want to exit the game or not and warns you about save data
