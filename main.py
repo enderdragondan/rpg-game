@@ -20,6 +20,7 @@ dpotions = 0 #Damage Potions
 infhpotions = False #Infinite Health Potions
 infdpotions = False #Infinite Health Potions
 gamecompleted = False #Player is Dead or not
+achievements = [] #Lists all the achievements have
 
 def mainmenu():
   #Adds all the variables to the function
@@ -27,6 +28,7 @@ def mainmenu():
   global maxhealth
   global attack
   global lvl
+  global achievements
   global name
   global coins
   global hpotions
@@ -37,7 +39,6 @@ def mainmenu():
   global infcoins
   global infhpotions
   global infdpotions
-  global hpotions
   #Very start of the game. nice
   os.system('clear')
   print("""Welcome to Enemy Attack!
@@ -65,6 +66,7 @@ def newgame():
   global maxhealth
   global attack
   global lvl
+  global achievements
   global name
   global coins
   global hpotions
@@ -85,6 +87,7 @@ def loadgame():
   global maxhealth
   global attack
   global lvl
+  global achievements
   global name
   global coins
   global hpotions
@@ -110,6 +113,9 @@ def loadgame():
     infattack = db[savename+"infattack"]
     inflvl = db[savename+"inflvl"]
     infcoins = db[savename+"infcoins"]
+    infcoins = db[savename+"infcoins"]
+    infhpotions = db[savename+"infhpotions"]
+    infdpotions = db[savename+"infdpotions"]
     print("Game successfully loaded with the name: ",savename)
     input("Press Enter to Continue")
   else:
@@ -212,6 +218,7 @@ def savegame():
   global maxhealth
   global attack
   global lvl
+  global achievements
   global name
   global coins
   global hpotions
@@ -238,6 +245,8 @@ def savegame():
   db[savename+"infattack"] = infattack
   db[savename+"inflvl"] = inflvl
   db[savename+"infcoins"] = infcoins
+  db[savename+"infhpotions"] = infhpotions
+  db[savename+"infdpotions"] = infdpotions
   os.system('clear')
   print("Saved game successfully with the name:",savename)
   print("Use this name to load the game next time you play!")
@@ -249,6 +258,7 @@ def shop():
   global maxhealth
   global attack
   global lvl
+  global achievements
   global name
   global coins
   global hpotions
@@ -392,6 +402,7 @@ def inventory():
   global maxhealth
   global attack
   global lvl
+  global achievements
   global name
   global coins
   global enemyhp
@@ -472,6 +483,7 @@ def stats():
   global maxhealth
   global attack
   global lvl
+  global achievements
   global name
   global coins
   #Simple stats menu for keeping track in game and also for me for debugging a bit
@@ -491,6 +503,7 @@ def encounter():
   global maxhealth
   global attack
   global lvl
+  global achievements
   global name
   global coins
   global enemyhp
@@ -531,7 +544,7 @@ def encounter():
       os.system('clear')
       enemyhp = 0
       print("""You succesfully ran away from the fight.
-              You earned 0 coins.""")
+  You earned 0 coins.""")
       input("Press Enter to Continue")
       return
 
@@ -561,6 +574,25 @@ def encounter():
     input("Press Enter to Continue")
 
 def achievements():
+  global health
+  global maxhealth
+  global attack
+  global lvl
+  global achievements
+  global name
+  global coins
+  global hpotions
+  global dpotions
+  global infhealth
+  global infattack
+  global inflvl
+  global infcoins
+  global infhpotions
+  global infdpotions
+  if infhealth == True or infattack == True or inflvl == True or infcoins == True or infhpotions == True or infdpotions == True:
+    print("Achievements aren't available on a save file with cheats enabled.")
+    input("Press Enter to Continue")
+    return
   print("Work in Progress")
   input("Press Enter to Continue")
 
@@ -570,6 +602,7 @@ def main():
   global maxhealth
   global attack
   global lvl
+  global achievements
   global name
   global coins
   global hpotions
@@ -655,6 +688,7 @@ def fightboss():
   global maxhealth
   global attack
   global lvl
+  global achievements
   global name
   global coins
   global enemyhp
