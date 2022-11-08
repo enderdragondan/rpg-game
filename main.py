@@ -593,9 +593,15 @@ def achievements():
     print("Achievements aren't available on a save file with cheats enabled.")
     input("Press Enter to Continue")
     return
-  print("Work in Progress")
+  print("Achievements: ")
+  if "killboss1" in achievements:
+    print("  Defeat 1 Boss - Completed")
+  else:
+    print("  Defeat 1 Boss - 0% Complete")
+
   input("Press Enter to Continue")
 
+  
 def main():
   #Adds all the variables to the function
   global health
@@ -754,6 +760,10 @@ def fightboss():
       #Give you a little prize for getting to level 100 without cheats...
       if lvl == 100 and infhealth == False and infcoins == False and infattack == False and inflvl == False and infhpotions == False and infdpotions == False:
         gamecompleted = True
+      elif lvl == 2 and "killboss1" not in achievements:
+        print("Achievement Unlocked!")
+        print("  Kill the First Boss.")
+        input("Press Enter to Continue")
     else:
       os.system('clear')
       print("Fight the boss again when you're ready to level up!")
