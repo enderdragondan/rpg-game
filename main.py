@@ -20,7 +20,8 @@ dpotions = 0 #Damage Potions
 infhpotions = False #Infinite Health Potions
 infdpotions = False #Infinite Health Potions
 gamecompleted = False #Player is Dead or not
-achievements = [] #Lists all the achievements have
+achievements = [""] #Lists all the achievements have
+bosseskilled = 0 #Keeps track of how many bosses you have killed (for achievements)
 
 def mainmenu():
   #Adds all the variables to the function
@@ -573,7 +574,7 @@ def encounter():
     print("Error")
     input("Press Enter to Continue")
 
-def achievements():
+def achievementslist():
   global health
   global maxhealth
   global attack
@@ -589,6 +590,7 @@ def achievements():
   global infcoins
   global infhpotions
   global infdpotions
+  os.system('clear')
   if infhealth == True or infattack == True or inflvl == True or infcoins == True or infhpotions == True or infdpotions == True:
     print("Achievements aren't available on a save file with cheats enabled.")
     input("Press Enter to Continue")
@@ -598,7 +600,10 @@ def achievements():
     print("  Defeat 1 Boss - Completed")
   else:
     print("  Defeat 1 Boss - 0% Complete")
-
+  if "level2" in achievements:
+    print("  Reach Level 2 - Completed")
+  else:
+    print("  Reach Level 2 - 0% Complete")
   input("Press Enter to Continue")
 
   
@@ -642,8 +647,8 @@ def main():
     3. Enter Shop
     4. Inventory
     5. Check Stats
-    6. Save Game
-    7. Achievements
+    6. Achievements
+    7. Save Game
     8. Exit Game""")
   mainchoice = input("Choose 1, 2, 3, 4, 5, 6, 7 or 8: ")
   while mainchoice not in ("1", "2", "3", "4", "5", "6", "7","8"):
@@ -664,12 +669,11 @@ def main():
   #Shows all your stats in the game
   elif mainchoice == "5":
     stats()
-  #Saves the game (but not yet)
   elif mainchoice == "6":
-    savegame()
-  #Exits the game (why would you want to)
+    achievementslist()
+  #Saves the game
   elif mainchoice == "7":
-    achievements()
+    savegame()
   else:
     os.system('clear')
     #Confirms if you really want to exit the game or not and warns you about save data
@@ -707,6 +711,7 @@ def fightboss():
   global infhpotions
   global infdpotions
   global gamecompleted
+  global bosseskilled
   enemyhp = lvl * 20
   enemyattack = lvl * 8
   #If the player or enemy dies this will end
@@ -745,6 +750,7 @@ def fightboss():
     print("You defeated the boss!")
     print(" You earned", bossreward, "coins.")
     coins = coins + bossreward
+    bosseskilled = bosseskilled + 1
     input("Press Enter to Continue")
     os.system('clear')
     print("Do you want to level up? Leveling up makes enemys stronger, but give you more rewards!")
@@ -760,13 +766,23 @@ def fightboss():
       #Give you a little prize for getting to level 100 without cheats...
       if lvl == 100 and infhealth == False and infcoins == False and infattack == False and inflvl == False and infhpotions == False and infdpotions == False:
         gamecompleted = True
-      elif lvl == 2 and "killboss1" not in achievements:
-        print("Achievement Unlocked!")
-        print("  Kill the First Boss.")
-        input("Press Enter to Continue")
     else:
       os.system('clear')
       print("Fight the boss again when you're ready to level up!")
+      input("Press Enter to Continue")
+    if bosseskilled == 1 and "killboss1" not in achievements:
+      os.system('clear')
+      print("Achievement Unlocked!")
+      print("  Kill the first boss.")
+      print("View your achievements in the achievements menu.")
+      achievements = achievements.append("killboss1")
+      input("Press Enter to Continue")
+    if lvl == 2 and "level2" not in achievements:
+      os.system('clear')
+      print("Achievement Unlocked!")
+      print("  Reach Level 2.")
+      print("View your achievements in the achievements menu.")
+      achievements = achievements.append("level2")
       input("Press Enter to Continue")
   #Tests to see if the player has no health, and if so, ends the game.
   elif health <= 0:
