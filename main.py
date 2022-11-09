@@ -770,20 +770,23 @@ def fightboss():
       os.system('clear')
       print("Fight the boss again when you're ready to level up!")
       input("Press Enter to Continue")
+      
     if bosseskilled == 1 and "killboss1" not in achievements:
       os.system('clear')
       print("Achievement Unlocked!")
       print("  Kill the first boss.")
       print("View your achievements in the achievements menu.")
-      achievements = achievements.append("killboss1")
+      achievements.insert(0,"killboss1")
       input("Press Enter to Continue")
+      
     if lvl == 2 and "level2" not in achievements:
       os.system('clear')
       print("Achievement Unlocked!")
       print("  Reach Level 2.")
       print("View your achievements in the achievements menu.")
-      achievements = achievements.append("level2")
+      achievements.insert(1,"level2")
       input("Press Enter to Continue")
+      
   #Tests to see if the player has no health, and if so, ends the game.
   elif health <= 0:
     gamecompleted = True
