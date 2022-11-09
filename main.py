@@ -1,6 +1,5 @@
 #Libraries
 import os
-import time
 import random
 from replit import db
 
@@ -20,8 +19,9 @@ dpotions = 0 #Damage Potions
 infhpotions = False #Infinite Health Potions
 infdpotions = False #Infinite Health Potions
 gamecompleted = False #Player is Dead or not
-achievements = [""] #Lists all the achievements have
+achievements = [] #Lists all the achievements have
 bosseskilled = 0 #Keeps track of how many bosses you have killed (for achievements)
+encounterskilled = 0 #Keeps track of how many encounters you have killed (for achievements)
 
 def mainmenu():
   #Adds all the variables to the function
@@ -117,6 +117,7 @@ def loadgame():
     infcoins = db[savename+"infcoins"]
     infhpotions = db[savename+"infhpotions"]
     infdpotions = db[savename+"infdpotions"]
+    achievements = db[savename+"achievements"]
     print("Game successfully loaded with the name: ",savename)
     input("Press Enter to Continue")
   else:
@@ -248,6 +249,7 @@ def savegame():
   db[savename+"infcoins"] = infcoins
   db[savename+"infhpotions"] = infhpotions
   db[savename+"infdpotions"] = infdpotions
+  db[savename+"achievements"] = achievements
   os.system('clear')
   print("Saved game successfully with the name:",savename)
   print("Use this name to load the game next time you play!")
@@ -484,9 +486,9 @@ def stats():
   global maxhealth
   global attack
   global lvl
-  global achievements
   global name
   global coins
+  global bosseskilled
   #Simple stats menu for keeping track in game and also for me for debugging a bit
   os.system('clear')
   print("Name:", name)
@@ -495,6 +497,7 @@ def stats():
   print("Max Health:", maxhealth)
   print("Attack:", attack)
   print("Coins:", coins)
+  print("Bosses Killed:",bosseskilled)
   input("Press Enter to Continue")
 
 
@@ -517,6 +520,7 @@ def encounter():
   global infhpotions
   global infdpotions
   global gamecompleted
+  global encounterskilled
   #Chooses the health of the enemy based on your level
   enemyhp = random.randint(2,3) * lvl
   #If the player or enemy dies this will end
@@ -569,7 +573,16 @@ def encounter():
     else:
       print(" You earned", encounterreward, "coins.")
     coins = coins + encounterreward
+    encounterskilled = encounterskilled + 1
     input("Press Enter to Continue")
+
+    if encounterskilled == 10 and "killencounter10" not in achievements:
+      os.system('clear')
+      print("Achievement Unlocked!")
+      print("  Train Stats 10 times.")
+      print("View your achievements in the achievements menu.")
+      achievements.append("killencounter10")
+      input("Press Enter to Continue")
   else:
     print("Error")
     input("Press Enter to Continue")
@@ -590,20 +603,31 @@ def achievementslist():
   global infcoins
   global infhpotions
   global infdpotions
+  global bosseskilled
+  global encounterskilled
   os.system('clear')
   if infhealth == True or infattack == True or inflvl == True or infcoins == True or infhpotions == True or infdpotions == True:
     print("Achievements aren't available on a save file with cheats enabled.")
     input("Press Enter to Continue")
     return
   print("Achievements: ")
+  
   if "killboss1" in achievements:
-    print("  Defeat 1 Boss - Completed")
+    print("  Defeat 1 Boss - 100% Completed")
   else:
     print("  Defeat 1 Boss - 0% Complete")
+    
   if "level2" in achievements:
-    print("  Reach Level 2 - Completed")
+    print("  Reach Level 2 - 100% Completed")
   else:
     print("  Reach Level 2 - 0% Complete")
+    
+  if "killencounter10" in achievements:
+    print("  Train Stats 10 times - 100% Completed")
+  else:
+    killencounter10 = round((encounterskilled / 10) * 100)
+    print("  Train Stats 10 times - "+str(killencounter10)+"% Completed")
+  
   input("Press Enter to Continue")
 
   
@@ -776,7 +800,7 @@ def fightboss():
       print("Achievement Unlocked!")
       print("  Kill the first boss.")
       print("View your achievements in the achievements menu.")
-      achievements.insert(0,"killboss1")
+      achievements.append("killboss1")
       input("Press Enter to Continue")
       
     if lvl == 2 and "level2" not in achievements:
@@ -784,7 +808,7 @@ def fightboss():
       print("Achievement Unlocked!")
       print("  Reach Level 2.")
       print("View your achievements in the achievements menu.")
-      achievements.insert(1,"level2")
+      achievements.append("level2")
       input("Press Enter to Continue")
       
   #Tests to see if the player has no health, and if so, ends the game.
@@ -826,3 +850,11 @@ elif lvl == 100:
 
 #to do list:
 #Split functions into separate python files (idk how)
+
+#if something and "achievement" not in achievements:
+#  os.system('clear')
+#  print("Achievement Unlocked!")
+#  print("  Achievement.")
+#  print("View your achievements in the achievements menu.")
+#  achievements.append("achievement")
+#  input("Press Enter to Continue")
