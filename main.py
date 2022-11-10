@@ -22,10 +22,12 @@ gamecompleted = False #Player is Dead or not
 achievements = [] #Lists all the achievements have
 bosseskilled = 0 #Keeps track of how many bosses you have killed (for achievements)
 encounterskilled = 0 #Keeps track of how many encounters you have killed (for achievements)
+cheats = False
 
 def mainmenu():
   #Adds all the variables to the function
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -64,6 +66,7 @@ def mainmenu():
 def newgame():
   #Adds all the variables to the function
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -78,13 +81,16 @@ def newgame():
   global infcoins
   global infhpotions
   global infdpotions
-  #Asks for your name for literally no reason at all
+  #Asks for your name for saying it at random times
   os.system('clear')
   name = input("What is your name?: ")
+  if infhealth == True or infattack == True or inflvl == True or infcoins == True or infhpotions == True or infdpotions == True:
+    cheats = True
 
 def loadgame():
   #Adds all the variables to the function
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -118,6 +124,7 @@ def loadgame():
     infhpotions = db[savename+"infhpotions"]
     infdpotions = db[savename+"infdpotions"]
     achievements = db[savename+"achievements"]
+    cheats = db[savename+"cheats"]
     print("Game successfully loaded with the name: ",savename)
     input("Press Enter to Continue")
   else:
@@ -217,6 +224,7 @@ def settings():
 def savegame():
   #Adds all the variables to the function
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -250,6 +258,7 @@ def savegame():
   db[savename+"infhpotions"] = infhpotions
   db[savename+"infdpotions"] = infdpotions
   db[savename+"achievements"] = achievements
+  db[savename+"cheats"] = cheats
   os.system('clear')
   print("Saved game successfully with the name:",savename)
   print("Use this name to load the game next time you play!")
@@ -258,6 +267,7 @@ def savegame():
 def shop():
   #Adds all the variables to the function
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -274,8 +284,8 @@ def shop():
   global infdpotions
   os.system('clear')
   print("""What do you want to buy?
-  1. Health Potion (10 coins)
-  2. Damage Potion (20 coins)
+  1. Health Potion (15 coins)
+  2. Damage Potion (30 coins)
   3. Max Health Boost (50 coins)
   4. Attack Boost (25 coins)
   5. Exit Shop
@@ -291,7 +301,7 @@ Choose a product to see more details about it.""")
   #Health Potion
   if shopchoice == "1":
     os.system('clear')
-    print("""Health Potion (10 coins)
+    print("""Health Potion (15 coins)
     Heals you by 10 HP. 
     Use this product in your inventory. 
     This is limited by your max health, to increase your max health check the shop!"""
@@ -303,8 +313,8 @@ Choose a product to see more details about it.""")
       confirmbuy = input(
         "Do you want to purchase this product? Yes or No: ").lower()
     if confirmbuy == "yes":
-      if coins > 10:
-        coins = coins - 10
+      if coins > 15:
+        coins = coins - 15
         hpotions = hpotions + 1
         os.system('clear')
         print("Succesfully purchased! You now have", hpotions,
@@ -320,7 +330,7 @@ Choose a product to see more details about it.""")
   #Damage Potion
   elif shopchoice == "2":
     os.system('clear')
-    print("""Damage Potion (20 coins)
+    print("""Damage Potion (30 coins)
     Deals 15 damage to the current enemy you are fighting. 
     Helpful in Boss Battles. """)
     confirmbuy = input(
@@ -330,8 +340,8 @@ Choose a product to see more details about it.""")
       confirmbuy = input(
         "Do you want to purchase this product? Yes or No: ").lower()
     if confirmbuy == "yes":
-      if coins > 20:
-        coins = coins - 20
+      if coins > 30:
+        coins = coins - 30
         dpotions = dpotions + 1
         os.system('clear')
         print("Succesfully purchased! You now have", dpotions,
@@ -402,6 +412,7 @@ Choose a product to see more details about it.""")
 def inventory():
   #Adds all the variables to the function
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -483,6 +494,7 @@ def inventory():
 def stats():
   #Adds all the variables to the function
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -504,6 +516,7 @@ def stats():
 def encounter():
   #Adds all the variables to the function
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -589,6 +602,7 @@ def encounter():
 
 def achievementslist():
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -606,7 +620,7 @@ def achievementslist():
   global bosseskilled
   global encounterskilled
   os.system('clear')
-  if infhealth == True or infattack == True or inflvl == True or infcoins == True or infhpotions == True or infdpotions == True:
+  if cheats == True:
     print("Achievements aren't available on a save file with cheats enabled.")
     input("Press Enter to Continue")
     return
@@ -615,18 +629,36 @@ def achievementslist():
   if "killboss1" in achievements:
     print("  Defeat 1 Boss - 100% Completed")
   else:
-    print("  Defeat 1 Boss - 0% Complete")
-    
+    print("  Defeat 1 Boss - 0% Completed")
+
+  if "killboss10" in achievements:
+    print("  Defeat 10 Bosses - 100% Completed")
+  else:
+    killboss10 = round((bosseskilled / 10) * 100)
+    print("  Defeat 10 Bosses - "+str(killboss10)+"% Completed")
+  
   if "level2" in achievements:
     print("  Reach Level 2 - 100% Completed")
   else:
-    print("  Reach Level 2 - 0% Complete")
+    print("  Reach Level 2 - 50% Completed")
+
+  if "level10" in achievements:
+    print("  Reach Level 10 - 100% Completed")
+  else:
+    level10 = round((lvl / 10) * 100)
+    print("  Reach Level 10 - "+str(level10)+"% Completed")
     
   if "killencounter10" in achievements:
     print("  Train Stats 10 times - 100% Completed")
   else:
     killencounter10 = round((encounterskilled / 10) * 100)
     print("  Train Stats 10 times - "+str(killencounter10)+"% Completed")
+
+  if "killencouter50" in achievements:
+    print("  Train Stats 50 times - 100% Completed")
+  else: 
+    killencounter50 = round((encounterskilled / 50) * 100)
+    print("  Train Stats 50 times - "+str(killencounter50)+"% Completed")
   
   input("Press Enter to Continue")
 
@@ -634,6 +666,7 @@ def achievementslist():
 def main():
   #Adds all the variables to the function
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -719,6 +752,7 @@ def main():
 def fightboss():
   #Adds all the variables to the function
   global health
+  global cheats
   global maxhealth
   global attack
   global lvl
@@ -788,14 +822,14 @@ def fightboss():
       print("You are now Level "+str(lvl)+"! Congratulations "+name+"!")
       input("Press Enter to Continue")
       #Give you a little prize for getting to level 100 without cheats...
-      if lvl == 100 and infhealth == False and infcoins == False and infattack == False and inflvl == False and infhpotions == False and infdpotions == False:
+      if lvl == 100 and cheats == False:
         gamecompleted = True
     else:
       os.system('clear')
       print("Fight the boss again when you're ready to level up!")
       input("Press Enter to Continue")
       
-    if bosseskilled == 1 and "killboss1" not in achievements:
+    if bosseskilled == 1 and "killboss1" not in achievements and cheats == False:
       os.system('clear')
       print("Achievement Unlocked!")
       print("  Kill the first boss.")
@@ -803,12 +837,28 @@ def fightboss():
       achievements.append("killboss1")
       input("Press Enter to Continue")
       
-    if lvl == 2 and "level2" not in achievements:
+    if lvl == 2 and "level2" not in achievements and cheats == False:
       os.system('clear')
       print("Achievement Unlocked!")
       print("  Reach Level 2.")
       print("View your achievements in the achievements menu.")
       achievements.append("level2")
+      input("Press Enter to Continue")
+
+    if bosseskilled == 10 and "killboss10" not in achievements and cheats == False:
+      os.system('clear')
+      print("Achievement Unlocked!")
+      print("  Defeat 10 Bosses.")
+      print("View your achievements in the achievements menu.")
+      achievements.append("killboss10")
+      input("Press Enter to Continue")
+
+    if lvl == 10 and "level10" not in achievements and cheats == False:
+      os.system('clear')
+      print("Achievement Unlocked!")
+      print("  Reach Level 10.")
+      print("View your achievements in the achievements menu.")
+      achievements.append("level10")
       input("Press Enter to Continue")
       
   #Tests to see if the player has no health, and if so, ends the game.
@@ -840,7 +890,7 @@ if health <= 0:
   print("   Coins:", coins)
   print("   Health Potions:", hpotions)
   print("   Damage Potions:", dpotions)
-  print("Thanks for Playing"+name+"!")
+  print("Thanks for Playing "+name+"!")
 elif lvl == 100:
   os.system('clear')
   print("congratulations on making it to level 100.")
