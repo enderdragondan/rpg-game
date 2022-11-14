@@ -25,6 +25,7 @@ bosseskilled = 0 #Keeps track of how many bosses you have killed (for achievemen
 encounterskilled = 0 #Keeps track of how many encounters you have killed (for achievements)
 cheats = False
 
+#Functions
 def mainmenu():
   #Adds all the variables to the function
   global health
@@ -314,7 +315,8 @@ def shop():
   2. Damage Potion (30 coins)
   3. Max Health Boost (50 coins)
   4. Attack Boost (25 coins)
-  5. Exit Shop
+  5. Level Up (50 coins)
+  6. Exit Shop
 Choose a product to see more details about it.""")
   print("You have", coins, "coins.")
   print("Press 1, 2, 3, 4 or 5: ")
@@ -440,7 +442,8 @@ Choose a product to see more details about it.""")
         elif key == "n":
           attackboostchoosing = False
           shop()
-    elif key == "5":
+
+    elif key == "6":
       shopchoosing = False
       main()
 
@@ -622,10 +625,9 @@ def encounter():
     #One in Ten chance to get the jackpot which will TRIPLE your coins from the fight. big money moves
     if jackpotchance == 1:
       encounterreward = encounterreward * 3
-      print(" You hit the JACKPOT and earned", encounterreward,
-            "coins. Congratulations!")
+      print("  You hit the JACKPOT and earned", encounterreward,"coins. Congratulations!")
     else:
-      print(" You earned", encounterreward, "coins.")
+      print("  You earned", encounterreward, "coins.")
     coins = coins + encounterreward
     encounterskilled = encounterskilled + 1
     input("Press Enter to Continue")
@@ -947,11 +949,3 @@ elif lvl == 100:
 
 #to do list:
 #Split functions into separate python files (idk how)
-
-#if something and "achievement" not in achievements:
-#  os.system('clear')
-#  print("Achievement Unlocked!")
-#  print("  Achievement.")
-#  print("View your achievements in the achievements menu.")
-#  achievements.append("achievement")
-#  input("Press Enter to Continue")
