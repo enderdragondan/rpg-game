@@ -1,4 +1,5 @@
 #Libraries
+from getkey import getkey, keys
 import os
 import random
 from replit import db
@@ -43,25 +44,25 @@ def mainmenu():
   global infhpotions
   global infdpotions
   #Very start of the game. nice
+  print("\033[1;34;34m")
   os.system('clear')
   print("""Welcome to Enemy Attack!
   1. New Game
   2. Load Game
-  3. Settings""")
-  menuinput = input("Choose 1, 2 or 3: ")
-  while menuinput not in ("1", "2", "3"):
-    print("Invalid Input")
-    menuinput = input("Choose 1, 2 or 3: ")
-  #Starts a new game
-  if menuinput == "1":
-    newgame()
-  #Loads a game from a save file
-  elif menuinput == "2":
-    loadgame()
-  #THE SETTINGS MENU OOOOO
-  else:
-    settings()
-    mainmenu()
+  3. Settings
+Press 1, 2 or 3.""")
+  mainmenuchoosing = True
+  while mainmenuchoosing == True:
+    key = getkey()
+    if key == "1":
+      newgame()
+      mainmenuchoosing = False
+    elif key == "2":
+      loadgame()
+      mainmenuchoosing = False
+    elif key == "3":
+      settings()
+      mainmenuchoosing = False
 
 def newgame():
   #Adds all the variables to the function
@@ -161,65 +162,90 @@ def settings():
     print("  6. Infinite Damage Potions:",infdpotions)
     print("  7. Back to Main Menu")
     if ih == 1:
-      print("Infinite Health Toggled")
+      if infhealth == True:
+        print("Infinite Health Enabled")
+      else:
+        print("Infinite Health Disabled")
     elif ia == 1:
-      print("Infinite Attack Toggled")
+      if infattack == True:
+        print("Infinite Attack Enabled")
+      else:
+        print("Infinite Attack Disabled")
     elif il == 1:
-      print("Infinite Levels Toggled")
+      if inflvl == True:
+        print("Infinite Levels Enabled")
+      else:
+        print("Infinite Levels Disabled")
     elif ic == 1:
-      print("Infinite Coins Toggled")
+      if infcoins == True:
+        print("Infinite Coins Enabled")
+      else:
+        print("Infinite Coins Disabled")
     elif ihp == 1:
-      print("Infinite Health Potions Toggled")
+      if infhpotions == True:
+        print("Infinite Health Potions Enabled")
+      else:
+        print("Infinite Health Potions Disabled")
     elif idp == 1:
-      print("Infinite Damage Potions Toggled")
-    settingsinput = input("Choose 1, 2, 3, 4, 5, 6 or 7: ")
-    while settingsinput not in ("1", "2", "3", "4", "5","6","7"):
-      print("Invalid Input")
-      settingsinput = input("Choose 1, 2, 3, 4, 5, 6 or 7: ")
-    #These are for displaying the different "Infinite ______ Toggled" messages
-    ih = 0
-    ia = 0
-    il = 0
-    ic = 0
-    ihp = 0
-    idp = 0
-    if settingsinput == "1":
-      ih = 1
-      if infhealth == False:
-        infhealth = True
+      if infdpotions == True:
+        print("Infinite Damage Potions Enabled")
       else:
-        infhealth = False
-    elif settingsinput == "2":
-      ia = 1
-      if infattack == False:
-        infattack = True
-      else:
-        infattack = False
-    elif settingsinput == "3":
-      il = 1
-      if inflvl == False:
-        inflvl = True
-      else:
-        inflvl = False
-    elif settingsinput == "4":
-      ic = 1
-      if infcoins == False:
-        infcoins = True
-      else:
-        infcoins = False
-    elif settingsinput == "5":
-      ihp = 1
-      if infhpotions == False:
-        infhpotions = True
-      else:
-        infhpotions = False
-    elif settingsinput == "6":
-      idp = 1
-      if infdpotions == False:
-        infdpotions = True
-      else:
-        infdpotions = False
-
+        print("Infinite Damage Potions Disabled")
+    print("Press 1, 2, 3, 4, 5, 6 or 7. ")
+    settingschoosing = True
+    while settingschoosing == True:
+      #These are for displaying the different "Infinite ______ Toggled" messages
+      ih = 0
+      ia = 0
+      il = 0
+      ic = 0
+      ihp = 0
+      idp = 0
+      key = getkey()
+      if key == "1":
+        ih = 1
+        settingschoosing = False
+        if infhealth == False:
+          infhealth = True
+        else:
+          infhealth = False
+      elif key == "2":
+        ia = 1
+        settingschoosing = False
+        if infattack == False:
+          infattack = True
+        else:
+          infattack = False
+      elif key == "3":
+        il = 1
+        settingschoosing = False
+        if inflvl == False:
+          inflvl = True
+        else:
+          inflvl = False
+      elif key == "4":
+        ic = 1
+        settingschoosing = False
+        if infcoins == False:
+          infcoins = True
+        else:
+          infcoins = False
+      elif key == "5":
+        ihp = 1
+        settingschoosing = False
+        if infhpotions == False:
+          infhpotions = True
+        else:
+          infhpotions = False
+      elif key == "6":
+        idp = 1
+        settingschoosing = False
+        if infdpotions == False:
+          infdpotions = True
+        else:
+          infdpotions = False
+      elif key == "7":
+        mainmenu()
 
 def savegame():
   #Adds all the variables to the function
@@ -291,7 +317,7 @@ def shop():
   5. Exit Shop
 Choose a product to see more details about it.""")
   print("You have", coins, "coins.")
-  shopchoice = input("Choose 1, 2, 3, 4 or 5: ")
+  print("Press 1, 2, 3, 4 or 5: ")
   while shopchoice not in ("1", "2", "3", "4", "5"):
     print("Invalid Input")
     shopchoice = input("Choose 1, 2, 3, 4 or 5: ")
@@ -433,62 +459,59 @@ def inventory():
   print("   1. Health Potions:", hpotions)
   print("   2. Damage Potions:", dpotions)
   print("   3. Exit Inventory")
-  inventoryuse = input("Choose 1, 2 or 3: ")
-  while inventoryuse not in ("1", "2", "3"):
-    print("Invalid Input")
-    inventoryuse = input("Choose 1, 2 or 3: ")
-  os.system('clear')
-
-  #Use Health Potion
-  if inventoryuse == "1":
-    if health == maxhealth:
-      os.system('clear')
-      print("Your health is already at the maximum of", health,
-            ". You can increase your max health with coins in the shop!")
-      input("Press Enter to Continue")
-      inventory()
-    elif hpotions > 0:
-      hpotions = hpotions - 1
-      health = health + 10
-      if health > maxhealth:
-        health = maxhealth
-      print("Health Potion Used! Your Health is now", health)
-      input("Press Enter to Continue")
-      inventory()
-    else:
-      os.system('clear')
-      print("You don't have any health potions. Purchase some in the shop!")
-      input("Press Enter to Continue")
-      inventory()
-
-  #Use Damage Potion
-  elif inventoryuse == "2":
-    os.system('clear')
-    #Tests if you are in a battle or not to tell whether or not you can use the item right now
-    if enemyhp > 0:
-      if dpotions > 0:
-        enemyhp = enemyhp - 15
-        dpotions = dpotions - 1
+  print("Press 1, 2 or 3: ")
+  inventorychoosing = True
+  if inventorychoosing == True:
+    key = getkey()
+    #Use Health Potion
+    if key == "1":
+      if health == maxhealth:
         os.system('clear')
-        if enemyhp > 0:
-          print("Damage Potion used! The enemy's health is now", enemyhp)
-          input("Press Enter to Continue")
-          inventory()
-        else:
-          return
-      else:
-        os.system('clear')
-        print(
-          "You don't have any damage potions. Purchase some in the shop after your battle!"
-        )
+        print("Your health is already at the maximum of", health,". You can increase your max health with coins in the shop!")
         input("Press Enter to Continue")
         inventory()
-    else:
-      print("You can't use this item here.")
-      print(
-        "Use these items while in a battle to deal 15 damage to the enemy. ")
-      input("Press Enter to Continue")
-      inventory()
+      elif hpotions > 0:
+        hpotions = hpotions - 1
+        health = health + 10
+        if health > maxhealth:
+          health = maxhealth
+        print("Health Potion Used! Your Health is now", health)
+        input("Press Enter to Continue")
+        inventory()
+      else:
+        os.system('clear')
+        print("You don't have any health potions. Purchase some in the shop!")
+        input("Press Enter to Continue")
+        inventory()
+    
+    #Use Damage Potion
+    elif key == "2":
+      os.system('clear')
+      #Tests if you are in a battle or not to tell whether or not you can use the item right now
+      if enemyhp > 0:
+        if dpotions > 0:
+          enemyhp = enemyhp - 15
+          dpotions = dpotions - 1
+          os.system('clear')
+          if enemyhp > 0:
+            print("Damage Potion used! The enemy's health is now", enemyhp)
+            input("Press Enter to Continue")
+            inventory()
+          else:
+            return
+        else:
+          os.system('clear')
+          print("You don't have any damage potions. Purchase some in the shop after your battle!")
+          input("Press Enter to Continue")
+          inventory()
+      else:
+        print("You can't use this item here.")
+        print("Use these items while in a battle to deal 15 damage to the enemy. ")
+        input("Press Enter to Continue")
+        inventory()
+
+    elif key == "3":
+      return
 
 
 def stats():
@@ -501,15 +524,17 @@ def stats():
   global name
   global coins
   global bosseskilled
+  global encounterskilled
   #Simple stats menu for keeping track in game and also for me for debugging a bit
   os.system('clear')
-  print("Name:", name)
-  print("Level:", lvl)
-  print("Health: ", health)
-  print("Max Health:", maxhealth)
-  print("Attack:", attack)
-  print("Coins:", coins)
-  print("Bosses Killed:",bosseskilled)
+  print(name+"'s Stats")
+  print("  Level:", lvl)
+  print("  Health: ", health)
+  print("  Max Health:", maxhealth)
+  print("  Attack:", attack)
+  print("  Coins:", coins)
+  print("  Bosses Killed:",bosseskilled)
+  print("  Trained Stats:",encounterskilled)
   input("Press Enter to Continue")
 
 
@@ -545,26 +570,29 @@ def encounter():
   1. Attack
   2. Use an item
   3. Run away""")
-    encounterchoice = input("Choose 1, 2 or 3: ")
-    while encounterchoice not in ("1", "2", "3"):
-      print("Invalid Input")
-      encounterchoice = input("Choose 1, 2 or 3: ")
-    #Attacks the enemy and also makes the enemy attack the player
-    if encounterchoice == "1":
-      enemyattack = random.randint(0,2) * lvl
-      enemyhp = enemyhp - attack
-      health = health - enemyattack
-    #Opens your inventory to use an item such as a health potion or damage potion
-    elif encounterchoice == "2":
-      inventory()
-    #Makes you run away from the fight if you're like gonna die lmao
-    else:
-      os.system('clear')
-      enemyhp = 0
-      print("""You succesfully ran away from the fight.
+    print("Press 1, 2 or 3: ")
+    encounterchoosing = True
+    while encounterchoosing == True:
+      key = getkey()
+      #Attacks the enemy and also makes the enemy attack the player
+      if key == "1":
+        encounterchoosing = False
+        enemyattack = random.randint(0,2) * lvl
+        enemyhp = enemyhp - attack
+        health = health - enemyattack
+      #Opens your inventory to use an item such as a health potion or damage potion
+      elif key == "2":
+        encounterchoosing = False
+        inventory()
+      #Makes you run away from the fight if you're like gonna die lmao
+      elif key == "3":
+        encounterchoosing = False
+        os.system('clear')
+        enemyhp = 0
+        print("""You succesfully ran away from the fight.
   You earned 0 coins.""")
-      input("Press Enter to Continue")
-      return
+        input("Press Enter to Continue")
+        return
 
   #Checks whether the enemy or the player died in the fight
   #If it was the player the game ends
@@ -707,46 +735,54 @@ def main():
     6. Achievements
     7. Save Game
     8. Exit Game""")
-  mainchoice = input("Choose 1, 2, 3, 4, 5, 6, 7 or 8: ")
-  while mainchoice not in ("1", "2", "3", "4", "5", "6", "7","8"):
-    print("Invalid Input")
-    mainchoice = input("Choose 1, 2, 3, 4, 5, 6, 7 or 8: ")
-  #Takes you to fight a smaller enemy to earn coins
-  if mainchoice == "1":
-    encounter()
-  #Takes you to fight the boss which will level you up when i can be bothered to make that work
-  elif mainchoice == "2":
-    fightboss()
-  #Takes you to the shop to buy stuff with coins
-  elif mainchoice == "3":
-    shop()
-  #Takes you to your inventory to see your items
-  elif mainchoice == "4":
-    inventory()
-  #Shows all your stats in the game
-  elif mainchoice == "5":
-    stats()
-  elif mainchoice == "6":
-    achievementslist()
-  #Saves the game
-  elif mainchoice == "7":
-    savegame()
-  else:
-    os.system('clear')
-    #Confirms if you really want to exit the game or not and warns you about save data
-    print(
-      "Are you sure you want to exit the game? ALL UNSAVED PROGRESS WILL BE LOST!"
-    )
-    exitconfirm = input("Yes or No: ").lower()
-    while exitconfirm not in ("yes", "no"):
-      print("Invalid Input")
-      exitconfirm = input("Yes or No: ")
-    #Quits the game :(
-    if exitconfirm == "yes":
-      exit()
-    #Takes you back to the game :)
-    else:
-      main()
+  print("Press 1, 2, 3, 4, 5, 6, 7 or 8: ")
+  mainchoosing = True
+  while mainchoosing == True:
+    key = getkey()
+    #Takes you to fight a smaller enemy to earn coins
+    if key == "1":
+      mainchoosing = False
+      encounter()
+    #Takes you to fight the boss which will level you up when i can be bothered to make that work
+    elif key == "2":
+      mainchoosing = False
+      fightboss()
+    #Takes you to the shop to buy stuff with coins
+    elif key == "3":
+      mainchoosing = False
+      shop()
+    #Takes you to your inventory to see your items
+    elif key == "4":
+      mainchoosing = False
+      inventory()
+    #Shows all your stats in the game
+    elif key == "5":
+      mainchoosing = False
+      stats()
+    elif key == "6":
+      mainchoosing = False
+      achievementslist()
+    #Saves the game
+    elif key == "7":
+      mainchoosing = False
+      savegame()
+    elif key == "8":
+      mainchoosing = False
+      os.system('clear')
+      #Confirms if you really want to exit the game or not and warns you about save data
+      print(
+        "Are you sure you want to exit the game? ALL UNSAVED PROGRESS WILL BE LOST!"
+      )
+      exitconfirm = input("Yes or No: ").lower()
+      while exitconfirm not in ("yes", "no"):
+        print("Invalid Input")
+        exitconfirm = input("Yes or No: ")
+      #Quits the game :(
+      if exitconfirm == "yes":
+        exit()
+      #Takes you back to the game :)
+      else:
+        main()
 
 
 def fightboss():
