@@ -318,121 +318,131 @@ def shop():
 Choose a product to see more details about it.""")
   print("You have", coins, "coins.")
   print("Press 1, 2, 3, 4 or 5: ")
-  while shopchoice not in ("1", "2", "3", "4", "5"):
-    print("Invalid Input")
-    shopchoice = input("Choose 1, 2, 3, 4 or 5: ")
-
-  #All of these shop choices work almost the exact same way I literally copied and pasted them all and tweaked the numbers. Easy to add more items later!
-
-  #Health Potion
-  if shopchoice == "1":
-    os.system('clear')
-    print("""Health Potion (15 coins)
-    Heals you by 10 HP. 
-    Use this product in your inventory. 
-    This is limited by your max health, to increase your max health check the shop!"""
-          )
-    confirmbuy = input(
-      "Do you want to purchase this product? Yes or No: ").lower()
-    while confirmbuy not in ("yes", "no"):
-      print("Invalid Input")
-      confirmbuy = input(
-        "Do you want to purchase this product? Yes or No: ").lower()
-    if confirmbuy == "yes":
-      if coins > 15:
-        coins = coins - 15
-        hpotions = hpotions + 1
-        os.system('clear')
-        print("Succesfully purchased! You now have", hpotions,
-              "health potions. ")
-        input("Press Enter to Continue")
-        shop()
-      else:
-        os.system('clear')
-        print("You don't have enough coins to buy this item.")
-        input("Press Enter to Continue")
-        shop()
-
-  #Damage Potion
-  elif shopchoice == "2":
-    os.system('clear')
-    print("""Damage Potion (30 coins)
-    Deals 15 damage to the current enemy you are fighting. 
-    Helpful in Boss Battles. """)
-    confirmbuy = input(
-      "Do you want to purchase this product? Yes or No: ").lower()
-    while confirmbuy not in ("yes", "no"):
-      print("Invalid Input")
-      confirmbuy = input(
-        "Do you want to purchase this product? Yes or No: ").lower()
-    if confirmbuy == "yes":
-      if coins > 30:
-        coins = coins - 30
-        dpotions = dpotions + 1
-        os.system('clear')
-        print("Succesfully purchased! You now have", dpotions,
-              "damage potions.")
-        input("Press Enter to Continue")
-        shop()
-      else:
-        os.system('clear')
-        print("You don't have enough coins to buy this item.")
-        input("Press Enter to Continue")
-        shop()
-
-  #Max Health Boost
-  elif shopchoice == "3":
-    os.system('clear')
-    print("""Max Health Boost (50 coins)
-    Increases your max health by 10 HP. 
-    You will still need to use a health potion to reach your new max health. """
-          )
-    confirmbuy = input(
-      "Do you want to purchase this product? Yes or No: ").lower()
-    while confirmbuy not in ("yes", "no"):
-      print("Invalid Input")
-      confirmbuy = input(
-        "Do you want to purchase this product? Yes or No: ").lower()
-    if confirmbuy == "yes":
-      if coins > 50:
-        coins = coins - 50
-        maxhealth = maxhealth + 10
-        os.system('clear')
-        print("Succesfully purchased! Your max health is now", maxhealth)
-        input("Press Enter to Continue")
-        shop()
-      else:
-        os.system('clear')
-        print("You don't have enough coins to buy this item.")
-        input("Press Enter to Continue")
-        shop()
-
-  #Attack Boost
-  elif shopchoice == "4":
-    os.system('clear')
-    print("""Attack Boost (25 coins)
-    Increases your attack by 1.""")
-    confirmbuy = input(
-      "Do you want to purchase this product? Yes or No: ").lower()
-    while confirmbuy not in ("yes", "no"):
-      print("Invalid Input")
-      confirmbuy = input(
-        "Do you want to purchase this product? Yes or No: ").lower()
-    if confirmbuy == "yes":
-      if coins > 25:
-        coins = coins - 25
-        attack = attack + 1
-        os.system('clear')
-        print("Succesfully purchased! Your attack is now", attack)
-        input("Press Enter to Continue")
-        shop()
-      else:
-        os.system('clear')
-        print("You don't have enough coins to buy this item.")
-        input("Press Enter to Continue")
-        shop()
-    else:
-      shop()
+  shopchoosing = True
+  while shopchoosing == True:
+    key = getkey()
+    #All of these shop choices work almost the exact same way I literally copied and pasted them all and tweaked the numbers. Easy to add more items later!
+    #Health Potion
+    if key == "1":
+      shopchoosing = False
+      os.system('clear')
+      print("""Health Potion (15 coins)
+  Heals you by 10 HP. 
+  Use this product in your inventory. 
+  This is limited by your max health, to increase your max health check the shop!""")
+      print("Do you want to purchase this product? Press Y or N. ")
+      healthpotionchoosing = True
+      while healthpotionchoosing == True:
+        key = getkey()
+        if key == "y":
+          healthpotionchoosing = False
+          if coins > 15:
+            coins = coins - 15
+            hpotions = hpotions + 1
+            os.system('clear')
+            print("Succesfully purchased! You now have", hpotions,"health potions. ")
+            input("Press Enter to Continue")
+            shop()
+          else:
+            os.system('clear')
+            print("You don't have enough coins to buy this item.")
+            input("Press Enter to Continue")
+            shop()
+        elif key == "n":
+          healthpotionchoosing = False
+          shop()
+  
+    #Damage Potion
+    elif key == "2":
+      shopchoosing = False
+      os.system('clear')
+      print("""Damage Potion (30 coins)
+  Deals 15 damage to the current enemy you are fighting. 
+  Helpful in Boss Battles. """)
+      print("Do you want to purchase this product? Press Y or N. ")
+      #lets the user choose an option
+      damagepotionchoosing = True
+      while damagepotionchoosing == True:
+        key = getkey()
+        if key == "y":
+          damagepotionchoosing = False
+          if coins > 30:
+            coins = coins - 30
+            dpotions = dpotions + 1
+            os.system('clear')
+            print("Succesfully purchased! You now have", dpotions,"damage potions.")
+            input("Press Enter to Continue")
+            shop()
+          else:
+            os.system('clear')
+            print("You don't have enough coins to buy this item.")
+            input("Press Enter to Continue")
+            shop()
+        elif key == "n":
+          damagepotionchoosing = False
+          shop()
+  
+    #Max Health Boost
+    elif key == "3":
+      shopchoosing = False
+      os.system('clear')
+      print("""Max Health Boost (50 coins)
+  Increases your max health by 10 HP. 
+  You will still need to use a health potion to reach your new max health. """)
+      print("Do you want to purchase this product? Press Y or N. ")
+      #lets the user choose an option
+      maxhealthboostchoosing = True
+      while maxhealthboostchoosing == True:
+        key = getkey()
+        if key == "y":
+          maxhealthboostchoosing = False
+          if coins > 50:
+            coins = coins - 50
+            maxhealth = maxhealth + 10
+            os.system('clear')
+            print("Succesfully purchased! Your max health is now", maxhealth)
+            input("Press Enter to Continue")
+            shop()
+          else:
+            os.system('clear')
+            print("You don't have enough coins to buy this item.")
+            input("Press Enter to Continue")
+            shop()
+        elif key == "n":
+          maxhealthboostchoosing = False
+          shop()
+  
+    #Attack Boost
+    elif key == "4":
+      shopchoosing = False
+      os.system('clear')
+      print("""Attack Boost (25 coins)
+  Increases your attack by 1.""")
+      print("Do you want to purchase this product? Press Y or N. ")
+      #lets the user choose an option
+      attackboostchoosing = True
+      while attackboostchoosing == True:
+        key = getkey()
+        if key == "y":
+          attackboostchoosing = False
+          if coins > 25:
+            coins = coins - 25
+            attack = attack + 1
+            os.system('clear')
+            print("Succesfully purchased! Your attack is now", attack)
+            input("Press Enter to Continue")
+            shop()
+          else:
+            os.system('clear')
+            print("You don't have enough coins to buy this item.")
+            input("Press Enter to Continue")
+            shop()
+        elif key == "n":
+          attackboostchoosing = False
+          shop()
+    elif key == "5":
+      shopchoosing = False
+      main()
 
 
 def inventory():
@@ -456,15 +466,16 @@ def inventory():
   global infdpotions
   os.system('clear')
   print(name+"'s Inventory: ")
-  print("   1. Health Potions:", hpotions)
-  print("   2. Damage Potions:", dpotions)
-  print("   3. Exit Inventory")
+  print("  1. Health Potions:", hpotions)
+  print("  2. Damage Potions:", dpotions)
+  print("  3. Exit Inventory")
   print("Press 1, 2 or 3: ")
   inventorychoosing = True
   if inventorychoosing == True:
     key = getkey()
     #Use Health Potion
     if key == "1":
+      inventorychoosing = False
       if health == maxhealth:
         os.system('clear')
         print("Your health is already at the maximum of", health,". You can increase your max health with coins in the shop!")
@@ -486,6 +497,7 @@ def inventory():
     
     #Use Damage Potion
     elif key == "2":
+      inventorychoosing = False
       os.system('clear')
       #Tests if you are in a battle or not to tell whether or not you can use the item right now
       if enemyhp > 0:
@@ -511,6 +523,7 @@ def inventory():
         inventory()
 
     elif key == "3":
+      inventorychoosing = False
       return
 
 
@@ -727,14 +740,14 @@ def main():
   #Literally the main function of the game. Thats why i called it main.
   os.system('clear')
   print("""What do you want to do?
-    1. Train Stats
-    2. Fight Boss
-    3. Enter Shop
-    4. Inventory
-    5. Check Stats
-    6. Achievements
-    7. Save Game
-    8. Exit Game""")
+  1. Train Stats
+  2. Fight Boss
+  3. Enter Shop
+  4. Inventory
+  5. Check Stats
+  6. Achievements
+  7. Save Game
+  8. Exit Game""")
   print("Press 1, 2, 3, 4, 5, 6, 7 or 8: ")
   mainchoosing = True
   while mainchoosing == True:
@@ -770,9 +783,7 @@ def main():
       mainchoosing = False
       os.system('clear')
       #Confirms if you really want to exit the game or not and warns you about save data
-      print(
-        "Are you sure you want to exit the game? ALL UNSAVED PROGRESS WILL BE LOST!"
-      )
+      print("Are you sure you want to exit the game? ALL UNSAVED PROGRESS WILL BE LOST!")
       exitconfirm = input("Yes or No: ").lower()
       while exitconfirm not in ("yes", "no"):
         print("Invalid Input")
@@ -919,13 +930,13 @@ if health <= 0:
   os.system('clear')
   print("Game Over!")
   print("Your Final Stats:")
-  print("   Level:", lvl)
-  print("   Health: ", health)
-  print("   Max Health:", maxhealth)
-  print("   Attack:", attack)
-  print("   Coins:", coins)
-  print("   Health Potions:", hpotions)
-  print("   Damage Potions:", dpotions)
+  print("  Level:", lvl)
+  print("  Health: ", health)
+  print("  Max Health:", maxhealth)
+  print("  Attack:", attack)
+  print("  Coins:", coins)
+  print("  Health Potions:", hpotions)
+  print("  Damage Potions:", dpotions)
   print("Thanks for Playing "+name+"!")
 elif lvl == 100:
   os.system('clear')
