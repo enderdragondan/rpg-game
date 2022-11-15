@@ -56,14 +56,14 @@ Press 1, 2 or 3.""")
   while mainmenuchoosing == True:
     key = getkey()
     if key == "1":
+      mainmenuchoosing = False
       newgame()
-      mainmenuchoosing = False
     elif key == "2":
+      mainmenuchoosing = False
       loadgame()
-      mainmenuchoosing = False
     elif key == "3":
-      settings()
       mainmenuchoosing = False
+      settings()
 
 def newgame():
   #Adds all the variables to the function
@@ -83,6 +83,7 @@ def newgame():
   global infcoins
   global infhpotions
   global infdpotions
+  global gamecompleted
   #Asks for your name for saying it at random times
   os.system('clear')
   name = input("What is your name?: ")
@@ -145,7 +146,8 @@ def settings():
   ic = 0
   ihp = 0
   idp = 0
-  while settingsinput != "7":
+  settingsloop = True
+  while settingsloop == True:
     #Adds all the variables to the function
     global infhealth
     global infattack
@@ -246,6 +248,8 @@ def settings():
         else:
           infdpotions = False
       elif key == "7":
+        settingsloop = False
+        settingschoosing = False
         mainmenu()
 
 def savegame():
@@ -315,11 +319,10 @@ def shop():
   2. Damage Potion (30 coins)
   3. Max Health Boost (50 coins)
   4. Attack Boost (25 coins)
-  5. Level Up (50 coins)
-  6. Exit Shop
+  5. Exit Shop
 Choose a product to see more details about it.""")
   print("You have", coins, "coins.")
-  print("Press 1, 2, 3, 4 or 5: ")
+  print("Press 1, 2, 3, 4 or 5. ")
   shopchoosing = True
   while shopchoosing == True:
     key = getkey()
@@ -338,7 +341,7 @@ Choose a product to see more details about it.""")
         key = getkey()
         if key == "y":
           healthpotionchoosing = False
-          if coins > 15:
+          if coins >= 15:
             coins = coins - 15
             hpotions = hpotions + 1
             os.system('clear')
@@ -368,7 +371,7 @@ Choose a product to see more details about it.""")
         key = getkey()
         if key == "y":
           damagepotionchoosing = False
-          if coins > 30:
+          if coins >= 30:
             coins = coins - 30
             dpotions = dpotions + 1
             os.system('clear')
@@ -398,7 +401,7 @@ Choose a product to see more details about it.""")
         key = getkey()
         if key == "y":
           maxhealthboostchoosing = False
-          if coins > 50:
+          if coins >= 50:
             coins = coins - 50
             maxhealth = maxhealth + 10
             os.system('clear')
@@ -427,7 +430,7 @@ Choose a product to see more details about it.""")
         key = getkey()
         if key == "y":
           attackboostchoosing = False
-          if coins > 25:
+          if coins >= 25:
             coins = coins - 25
             attack = attack + 1
             os.system('clear')
@@ -443,7 +446,7 @@ Choose a product to see more details about it.""")
           attackboostchoosing = False
           shop()
 
-    elif key == "6":
+    elif key == "5":
       shopchoosing = False
       main()
 
@@ -830,25 +833,28 @@ def fightboss():
   1. Attack
   2. Use an item
   3. Run away""")
-    bosschoice = input("Choose 1, 2 or 3: ")
-    while bosschoice not in ("1", "2", "3"):
-      print("Invalid Input")
-      bosschoice = input("Choose 1, 2 or 3: ")
-    #Attacks the enemy and also makes the enemy attack the player
-    if bosschoice == "1":
-      enemyhp = enemyhp - attack
-      health = health - enemyattack
-    #Opens your inventory to use an item such as a health potion or damage potion
-    elif bosschoice == "2":
-      inventory()
-    #Makes you run away from the fight if you SUCK
-    else:
-      os.system('clear')
-      enemyhp = 0
-      print("""You succesfully ran away from the fight.
-  You earned 0 coins.""")
-      input("Press Enter to Continue")
-      return
+    print("Press 1, 2 or 3.")
+    bosschoosing = True
+    while bosschoosing == True:
+      key = getkey()
+      #Attacks the enemy and also makes the enemy attack the player
+      if key == "1":
+        bosschoosing = False
+        enemyhp = enemyhp - attack
+        health = health - enemyattack
+      #Opens your inventory to use an item such as a health potion or damage potion
+      elif key == "2":
+        bosschoosing = False
+        inventory()
+      #Makes you run away from the fight if you SUCK
+      elif key == "3":
+        bosschoosing = False
+        os.system('clear')
+        enemyhp = 0
+        print("""You succesfully ran away from the fight.
+    You earned 0 coins.""")
+        input("Press Enter to Continue")
+        return
 
   if enemyhp <= 0 and health > 0:
     #Gives player coins for defeating the boss based on level
@@ -861,22 +867,24 @@ def fightboss():
     input("Press Enter to Continue")
     os.system('clear')
     print("Do you want to level up? Leveling up makes enemys stronger, but give you more rewards!")
-    levelupchoice = input("Yes or No?: ").lower()
-    while levelupchoice not in ("yes","no"):
-      print("Invalid Input")
-      levelupchoice = input("Yes or No?: ").lower()
-    if levelupchoice == "yes":
-      lvl = lvl + 1
-      os.system('clear')
-      print("You are now Level "+str(lvl)+"! Congratulations "+name+"!")
-      input("Press Enter to Continue")
-      #Give you a little prize for getting to level 100 without cheats...
-      if lvl == 100 and cheats == False:
-        gamecompleted = True
-    else:
-      os.system('clear')
-      print("Fight the boss again when you're ready to level up!")
-      input("Press Enter to Continue")
+    print("Press Y or N. ")
+    levelupchoosing = True
+    while levelupchoosing == True:
+      key = getkey()
+      if key == "y":
+        levelupchoosing = False
+        lvl = lvl + 1
+        os.system('clear')
+        print("You are now Level "+str(lvl)+"! Congratulations "+name+"!")
+        input("Press Enter to Continue")
+        #Give you a little prize for getting to level 100 without cheats...
+        if lvl == 100 and cheats == False:
+          gamecompleted = True
+      elif key == "n":
+        levelupchoosing = False
+        os.system('clear')
+        print("Fight the boss again when you're ready to level up!")
+        input("Press Enter to Continue")
       
     if bosseskilled == 1 and "killboss1" not in achievements and cheats == False:
       os.system('clear')
@@ -946,6 +954,6 @@ elif lvl == 100:
   print("go to this url for your prize: ")
   print()
   print(os.environ['secret'])
-
-#to do list:
-#Split functions into separate python files (idk how)
+  input("Press Enter to Continue")
+  gamecompleted = False
+  main()
